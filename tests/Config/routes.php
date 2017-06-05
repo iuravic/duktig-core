@@ -1,0 +1,205 @@
+<?php
+return [
+    'route-with-callable-handler' => [
+        'path' => '/route-with-callable-handler',
+        'params_defaults' => [],
+        'params_requirements' => [],
+        'handler' => function (\Interop\Http\Factory\ResponseFactoryInterface $responseFactory) {
+            $response = $responseFactory->createResponse();
+            $response->getBody()->write('Response body set by the callable handler');
+            return $response;
+        },
+        'handler_method' => '',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    'route-with-invalid-callable-handler' => [
+        'path' => '/route-with-invalid-callable-handler',
+        'params_defaults' => [],
+        'params_requirements' => [],
+        'handler' => function () {
+            return "This route handler cannot be resolved by the IoC container since it doesn't return an object";
+        },
+        'handler_method' => '',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    'route-with-handler-with-invalid-return-type' => [
+        'path' => '/route-with-handler-with-invalid-return-type',
+        'params_defaults' => [],
+        'params_requirements' => [],
+        'handler' => function () {
+            return new \stdClass();
+        },
+        'handler_method' => '',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::paramsTestAction' => [
+        'path' => '/resolvable/page/{uriParam1}/{uriParam2}{trailingSlash}',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'paramsTestAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::dependencyTestAction' => [
+        'path' => '/dependency-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'dependencyTestAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::customServiceResolutionTestAction' => [
+        'path' => '/custom-service-resolution-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'customServiceResolutionTestAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\InvalidDependencyController::indexAction' => [
+        'path' => '/invalid-dependency-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\InvalidDependencyController::class,
+        'handler_method' => 'indexAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::templateAction' => [
+        'path' => '/template-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'templateAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::templateMissingAction' => [
+        'path' => '/missing-template-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'templateMissingAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::routeMiddlewareAction' => [
+        'path' => '/route-specific-middleware-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'routeMiddlewareAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [
+            \Duktig\Test\Helpers\Middleware\TestRouteSpecificMiddleware::class
+        ],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::routeInvalidMiddlewareAction' => [
+        'path' => '/route-invalid-middleware-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'routeInvalidMiddlewareAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [
+            \Duktig\Test\Helpers\Middleware\NonexistantMiddleware::class
+        ],
+    ],
+    '\Duktig\Test\Controller\ResolvableController::testTriggerCustomEventAction' => [
+        'path' => '/custom-event-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'testTriggerCustomEventAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::testTriggerCustomEventInConfigurationAction' => [
+        'path' => '/custom-event-configuration-test',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'testTriggerCustomEventInConfigurationAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+    '\Duktig\Test\Helpers\Controller\ResolvableController::testTriggerEventWithInvalidListenerAction' => [
+        'path' => '/event-with-invalid-listener',
+        'params_defaults' => [],
+        'params_requirements' => [
+            'trailingSlash' => '/?',
+        ],
+        'handler' => \Duktig\Test\Helpers\Controller\ResolvableController::class,
+        'handler_method' => 'testTriggerEventWithInvalidListenerAction',
+        'options' => [],
+        'host' => '',
+        'schemes' => [],
+        'methods' => ['GET'],
+        'middlewares' => [],
+    ],
+];
