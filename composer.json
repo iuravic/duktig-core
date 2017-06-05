@@ -22,7 +22,7 @@
         "iuravic/duktig-symfony-router-adapter": "dev-master",
         "iuravic/duktig-middleman-adapter": "dev-master",
         "iuravic/duktig-symfony-event-dispatcher-adapter": "dev-master",
-        "iuravic/duktig-twig-renderer-adapter": "dev-master",
+        "iuravic/duktig-twig-adapter": "dev-master",
         "monolog/monolog": "^1.22"
     },
     "autoload": {
