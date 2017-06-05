@@ -29,7 +29,7 @@
         "mindplay/middleman": "3.0.0.x-dev",
         "iuravic/duktig-symfony-event-dispatcher-adapter": "dev-master",
         "symfony/event-dispatcher": "^3.2",
-        "iuravic/duktig-twig-renderer-adapter": "dev-master",
+        "iuravic/duktig-twig-adapter": "dev-master",
         "twig/twig": "^1.31",
         "monolog/monolog": "^1.22"
     },
