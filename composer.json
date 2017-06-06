@@ -1,10 +1,25 @@
 {
     "name": "iuravic/duktig-core",
     "type": "library",
-    "authors": [
-        {"name": "Ivan Uravić", "email": "iuravic@gmail.com"}
+    "description": "Core library for Duktig MVC micro web framework for PHP 7.1",
+    "keywords": [
+        "Duktig",
+        "PHP",
+        "MVC",
+        "web",
+        "framework",
+        "micro framework"
     ],
-    "license" : ["MIT"],
+    "homepage": "https://github.com/iuravic/duktig-core",
+    "license": [
+        "MIT"
+    ],
+    "authors": [
+        {
+            "name": "Ivan Uravić",
+            "email": "iuravic@gmail.com"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
