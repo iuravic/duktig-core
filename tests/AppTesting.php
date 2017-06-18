@@ -3,6 +3,7 @@ namespace Duktig\Test;
 
 use Duktig\Core\App;
 use Duktig\Core\DI\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * This class is intended to be used in test environment instead of the
@@ -15,5 +16,10 @@ class AppTesting extends App
     public function getContainer() : ContainerInterface
     {
         return parent::getContainer();
+    }
+    
+    public function getResponse() : ResponseInterface
+    {
+        return $this->response;
     }
 }

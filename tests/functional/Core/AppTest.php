@@ -2,6 +2,7 @@
 namespace Duktig\Core;
 
 use PHPUnit\Framework\TestCase;
+use Duktig\Test\AppTesting;
 use Psr\Http\Message\ResponseInterface;
 use Duktig\Http\Factory\Adapter\Guzzle\GuzzleServerRequestFactory;
 use Duktig\Core\Exception\HttpException;
@@ -15,7 +16,7 @@ class AppTest extends TestCase
         parent::setUp();
         $this->app = (new AppFactory())->make(
             __DIR__.'/../../Config/configTest.php',
-            App::class
+            AppTesting::class
         );
     }
     
@@ -34,7 +35,9 @@ class AppTest extends TestCase
     public function testConvertsRequestIntoResponse()
     {
         $request = $this->getRequest('/route-with-callable-handler');
+        ob_start();
         $this->app->run($request);
+        ob_end_clean();
         $response = $this->app->getResponse();
         $this->assertInstanceOf(ResponseInterface::class, $response,
             "getResponse() should have returned ResponseInterface object but didn't");
@@ -43,21 +46,21 @@ class AppTest extends TestCase
     public function testGetsResponseFromRouteWithACallableHandler()
     {
         $request = $this->getRequest('/route-with-callable-handler');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/Response body set by the callable handler/');
     }
     
     public function testGetsResponseFromRouteWithAResolvableController()
     {
         $request = $this->getRequest('/resolvable/page/testUP1/testUP2?conf=qval1&testqp2=qval2');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/Body set by ResolvableController::pageAction/');
     }
     
     public function testUriAndQueryParamsArePassedToController()
     {
         $request = $this->getRequest('/resolvable/page/testUP1/testUP2?conf=qval1&testqp2=qval2');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $string = 'Uri params: '.json_encode(['uriParam1' => 'testUP1','uriParam2' => 'testUP2'])
             ."\n".'Query params: '.json_encode(['conf' => 'qval1','testqp2' => 'qval2']);
         $this->expectOutputRegex('/'.$string.'/');
@@ -66,7 +69,7 @@ class AppTest extends TestCase
     public function testResponseIsRenderedInTemplate()
     {
         $request = $this->getRequest('/template-test');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/<h1>Test Template<\/h1>/');
         $this->expectOutputRegex('/<p>Lets render some text: testing123<\/p>/');
     }
@@ -103,14 +106,14 @@ class AppTest extends TestCase
     public function testServiceWithDependencyIsResolved()
     {
         $request = $this->getRequest('/dependency-test');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/Logging service provided instanceof Monolog\\\Logger/');
     }
     
     public function testCustomServiceWithDependencyIsResolved()
     {
         $request = $this->getRequest('/custom-service-resolution-test');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex(
             '/Custom service lazy loaded and injected with its own dependencies'
             .' Duktig\\\Test\\\Helpers\\\Service\\\TestService/'
@@ -124,20 +127,20 @@ class AppTest extends TestCase
         $this->expectExceptionMessage(
             "Unable to get: Duktig\Test\Helpers\Controller\InvalidDependencyController"
         );
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
     }
     
     public function testRunsApplicationGlobalMiddleware()
     {
         $request = $this->getRequest('/resolvable/page/testUP1/testUP2?conf=qval1&testqp2=qval2');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/<!-- Response modified by TestAppMiddleware -->/');
     }
     
     public function testRunsRouteSpecificMiddleware()
     {
         $request = $this->getRequest('/route-specific-middleware-test');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/Response body modified by TestRouteSpecificMiddleware/');
     }
     
@@ -148,20 +151,20 @@ class AppTest extends TestCase
         $this->expectExceptionMessage(
             "Unable to resolve middleware Duktig\Test\Helpers\Middleware\NonexistantMiddleware"
         );
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
     }
     
     public function testACoreEventOnAppTerminateIsDispatchedAndTheListenerIsExecuted()
     {
         $request = $this->getRequest('/resolvable/page/testUP1/testUP2?conf=qval1&testqp2=qval2');
-        $this->app->run($request)->sendResponse()->terminate();
+        $this->app->run($request);
         $this->expectOutputRegex('/Output echoed by custom listener for event duktig.core.app.beforeTerminate/');
     }
     
     public function testEventIsRegisteredProgrammaticallyAndTheListenerIsExecuted()
     {
         $request = $this->getRequest('/custom-event-test');
-        $this->app->run($request)->sendResponse();
+        $this->app->run($request);
         $this->expectOutputRegex('/EventTestListener has altered the response when EventTest was triggered/');
     }
     
@@ -177,7 +180,6 @@ class AppTest extends TestCase
     public function testThrowsExceptionIfListenerCannotBeResolved()
     {
         $request = $this->getRequest('/event-with-invalid-listener');
-//         $this->expectException(\InvalidArgumentException::class);
         $this->expectException(\Psr\Container\NotFoundExceptionInterface::class);
         $this->expectExceptionMessage(
             "Invalid service as listener 'Duktig\Test\Event\ListenerWhichDoesNotExist'"

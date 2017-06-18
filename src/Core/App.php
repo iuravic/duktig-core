@@ -29,6 +29,7 @@ use Duktig\Core\Exception\{
     HttpException,
     ContainerServiceNotFound
 };
+use Psr\Http\Message\RequestInterface;
 
 class App
 {
@@ -40,7 +41,7 @@ class App
     /**
      * @var \Psr\Http\Message\ResponseInterface $response
      */
-    private $response;
+    protected $response;
     
     /**
      * @var \Duktig\Core\DI\ContainerInterface $container
@@ -90,21 +91,15 @@ class App
     
     /**
      * Application entry point. Takes the request as param, or if it is not
-     * provided, it is created one from the globals, and runs it throught the 
-     * whole app stack.
-     * 
-     * After running this method, the internal variable $response is set, which 
-     * can then be fetched with the method $this->getResponse().
-     * 
-     * In the end, the method $this->terminate() should be called, as the last 
-     * method in the app chain.
+     * provided, one is created from the globals, and runs it throught the 
+     * whole app stack. The response is then sent to the browser and the app
+     * business is finished.
      * 
      * @param ServerRequestInterface $request [optional] If null, creates it from 
      *      the globals
      * @throws Throwable
-     * @return App
      */
-    public function run(ServerRequestInterface $request = null) : App
+    public function run(ServerRequestInterface $request = null) : void
     {
         if (null === $request) {
             $request = $this->getContainer()
@@ -112,17 +107,17 @@ class App
                 ->createServerRequestFromArray($_SERVER);
         }
         try {
-            $response = $this->handleRequest($request);
+            $this->response = $this->handleRequest($request);
         } catch (\Throwable $e) {
             if ($this->config->getParam('env') != 'prod') {
                 throw $e;
             }
             $this->exceptionHandler->report($e);
-            $response = $this->exceptionHandler->throwableToResponse($e);
+            $this->response = $this->exceptionHandler->throwableToResponse($e);
         }
         
-        $this->response = $response;
-        return $this;
+        $this->sendResponse($this->response);
+        $this->terminate();
     }
     
     /**
@@ -203,17 +198,6 @@ class App
         return $stack;
     }
     
-    /**
-     * Gets the response from the app. After the run() method is called, the
-     * internal response parameter is set, and can be retrieved here.
-     * 
-     * @return ResponseInterface|NULL
-     */
-    public function getResponse() : ?ResponseInterface
-    {
-        return $this->response;
-    }
-    
     protected function getContainer() : ContainerInterface
     {
         return $this->container;
@@ -222,18 +206,14 @@ class App
     /**
      * Sends the response to the browser.
      * 
-     * @param ResponseInterface $response [optional] If no $response param is given,
-     *      it sends the internal response parameter.
+     * @param ResponseInterface $response
      * @return void|\Duktig\Core\App
      */
-    public function sendResponse(ResponseInterface $response = null) : App
+    private function sendResponse(ResponseInterface $response) : App
     {
-        $response = $response ?? $this->response;
-        if ($response !== null) {
-            $this->eventDispatcher->dispatch(new EventBeforeAppReponseSending($response));
-            $this->responseSender->sendResponse($response);
-            $this->eventDispatcher->dispatch(new EventAfterAppReponseSending($response));
-        }
+        $this->eventDispatcher->dispatch(new EventBeforeAppReponseSending($response));
+        $this->responseSender->sendResponse($response);
+        $this->eventDispatcher->dispatch(new EventAfterAppReponseSending($response));
         return $this;
     }
     
@@ -241,7 +221,7 @@ class App
      * Finishes up the app business. It is the last method to be called after
      * every request.
      */
-    public function terminate() : void
+    private function terminate() : void
     {
         $this->eventDispatcher->dispatch(new EventSimple('duktig.core.app.beforeTerminate'));
     }
