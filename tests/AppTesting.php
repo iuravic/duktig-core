@@ -18,7 +18,7 @@ class AppTesting extends App
         return parent::getContainer();
     }
     
-    public function getResponse() : ResponseInterface
+    public function getResponse() : ?ResponseInterface
     {
         return $this->response;
     }
