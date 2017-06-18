@@ -9,15 +9,17 @@ abstract class EventAbstract implements EventInterface
     
     /**
      * @param string|null $name [optional] If no event name is provided, the
-     *      default name is its fully qualified class name (without the prefix 
-     *      backslash).
+     *      default name will be the fully qualified class name (without the
+     *      prefix backslash).
      */
     public function __construct(string $name = null)
     {
-        if (is_null($name)) {
-            $name = (new \ReflectionClass($this))->getName();
-        }
         $this->name = $name;
+    }
+    
+    private function getFQCN()
+    {
+        return (new \ReflectionClass($this))->getName();
     }
     
     /**
@@ -26,6 +28,9 @@ abstract class EventAbstract implements EventInterface
      */
     public function getName() : string
     {
+        if (is_null($this->name)) {
+            $this->name = $this->getFQCN();
+        }
         return $this->name;
     }
 }
