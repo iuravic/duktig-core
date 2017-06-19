@@ -26,17 +26,17 @@ This is the core package for the Duktig micro MVC web framework. It is used with
 - [Testing](#testing)
 
 <a name="about"></a>
-## About
+# About
 
 Duktig is a light weight MVC micro web framework written for PHP 7.1. It was primarily created as an educational project, but it is also fully tested and feasible for production use. It implements the MVC pattern and features an IoC container, events system, and uses HTTP middleware.
 
 <a name="duktig-skeleton-web-app-package"></a>
-### `duktig-skeleton-web-app` package
+## `duktig-skeleton-web-app` package
 
 The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) package is a full featured standalone project which is based on the `duktig-core` package. It can be used as a starting point for developing your own Duktig framework application since it readily implements all the necessary dependencies based on popular open-source projects and packages.
 
 <a name="purpose"></a>
-### Purpose
+## Purpose
 
 Duktig framework's goal is to deliver a flexible yet powerful framework for creating web applications
 by using the most feasible and up-to-date features and practices.
@@ -44,7 +44,7 @@ by using the most feasible and up-to-date features and practices.
 By learning from some of the most popular PHP web frameworks today ([Aura](http://auraphp.com/), [Silex](https://silex.sensiolabs.org/), [Slim](https://www.slimframework.com/), [Stack](http://stackphp.com/), [Yii2](https://github.com/yiisoft/yii2/), [Lumen](https://lumen.laravel.com/), [Symfony](https://symfony.com/), [Laravel](https://laravel.com/), [Bullet](http://bulletphp.com/), [Proton](https://github.com/alexbilbie/Proton)), Duktig's core architecture relies on modern principles and standards.
 
 <a name="standards"></a>
-### Standards
+## Standards
 
 - [PSR](http://www.php-fig.org) compliant
   - PSR-1, PSR-2 coding, and PSR-4 autoloading standards
@@ -54,7 +54,7 @@ By learning from some of the most popular PHP web frameworks today ([Aura](http:
 - TDD developed, unit, integration, and functionally tested
 
 <a name="features"></a>
-### Features
+## Features
 
 - PHP 7.1
 - MVC pattern
@@ -65,13 +65,13 @@ By learning from some of the most popular PHP web frameworks today ([Aura](http:
 
 
 <a name="package-design"></a>
-## Package design
+# Package design
 
 Most of Duktig's core services are decoupled from the core package and packaged into their own modules. This kind of approach provides high flexibility and a good package design. Using interface injection, the object graph is naturally composed during the execution.
 
 
 <a name="core-services"></a>
-## Core services
+# Core services
 
 The [`duktig-core`](https://github.com/iuravic/duktig-core) implements several of its own core services, while leaving out the implementation of most others to external projects:
 - [configuration service](https://github.com/iuravic/duktig-core/blob/master/src/Core/Config/Config.php),
@@ -84,7 +84,7 @@ These core services are registered in core's [`'Config/services.php'`](https://g
 
 
 <a name="requirements"></a>
-## Requirements
+# Requirements
 
 The `duktig-core` package defines and uses a number of interfaces which need to be implemented by resolvable services at runtime. The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) demonstrates how this is done in a real case, and is a recommended starting point for writing your own Duktig framework application. Briefly put, to implement these requirements, an application (for example the `duktig-skeleton-web-app`) first includes all the required packages as [composer dependencies](https://github.com/iuravic/duktig-skeleton-web-app/blob/master/composer.json) and then [registers them as services](https://github.com/iuravic/duktig-skeleton-web-app/blob/master/src/Config/services.php).
 
@@ -99,24 +99,24 @@ Once implemented, the application has access to the implementations of the follo
 
 
 <a name="dependency-injection"></a>
-## Dependency injection
+# Dependency injection
 
 <a name="container"></a>
-### Container
+## Container
 
 The DI container must implement the [`Duktig\Core\DI\ContainerInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerInterface.php). This interface is an extension of the `Psr\Container\ContainerInterface` with a several methods of its own.
 
 By default, Duktig out-of-the-box uses the [Auryn container](https://github.com/rdlowrey/auryn), or rather the [`duktig-auryn-adapter`](https://github.com/iuravic/duktig-auryn-adapter) package which adapts to the defined interface. This is defined in the `dutig-core` [configuration](https://github.com/iuravic/duktig-core/tree/master/src/Config). The container can however be changed to any PSR-11 container which additionally implements the `Duktig\Core\DI\ContainerInterface`.
 
 <a name=""></a>
-#### ContainerFactory
+### ContainerFactory
 
 The container itself is instantiated and configured by the [`Duktig\Core\DI\ContainerFactory`](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerFactory.php). If the custom container class has any constructor parameters, the `ContainerFactory` will try to resolve and inject them by using the `ReflectionClass`.
 
 The `ContainerFactory` then configures the container, by running it through the service configurators. The services are configured in your app's `services.php` config file.
 
 <a name="dependency-resolution"></a>
-### Dependency resolution
+## Dependency resolution
 
 As with any standard PHP DI container, the constructor parameter type hinting is used to provide dependency injection. The following entites in the framework are resolved by the container:
 
@@ -129,32 +129,32 @@ As with any standard PHP DI container, the constructor parameter type hinting is
 These entities will have their constructor parameters resolved and injected at runtime. Any dependency can be injected in this way, either if it was previously defined with the container as a service, or even if it is automatically provisioned, which of course depends on if the container of your choice supports the automatic provisioning feature (the Auryn DI container does).
 
 <a name="lazy-loading"></a>
-### Lazy-loading
+## Lazy-loading
 
 The framework itself takes advantage of the lazy-loading optimization and delays the object creation in several cases, therefore improving performance. Ie. the controller resolution happens only when the end of the middleware stack is reached, and not sooner. Lazy-loading is naturally related to the container's `make()` method implementation. Therefore, if the container of your choice uses lazy-loading (which the Auryn DI container does), it will also be applied throughout the framework workflow.
 
 
 <a name="framework-components"></a>
-## Framework components
+# Framework components
 
 <a name="routing"></a>
-### Routing
+## Routing
 
 `duktig-core` defines its routing in terms of several entities. It uses a router which has the job to match the current request to the appropriate route. It also uses a route provider service which provides a simple API for fetching and identifying available routes.
 
-#### Router
+### Router
 
 Duktig's router is featured as a standalone service. The router must implement the [`Duktig\Core\Route\Router\RouterInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Route/Router/RouterInterface.php). This interface defines only one mandatory method `match` which matches the `Psr\Http\Message\ServerRequestInterface` object to a `Duktig\Core\Route\Router\RouterMatch` object. The `RouterMatch` is nothing more than a value object which represents the matched route; it holds the route which was matched and its parameters.
 
-#### Route
+### Route
 
 `Duktig\Core\Route\Route` is the Duktig's route model. Its form was heaviliy influenced by the [Symfony Route's](https://github.com/symfony/routing) route model, as it is one of the most feature-rich and popular route representations in the open-source community.
 
-#### RouteProvider
+### RouteProvider
 
 `Duktig\Core\Route\RouteProvider` is a service which provides access to the routes. It accesses the routes' configuration from the configuration services, and converts it to the `Route` objects, exposing them in a way of a several user-friendly API methods.
 
-#### Route handlers
+### Route handlers
 
 A route can have two different kinds of resolvers:
 
@@ -167,11 +167,11 @@ Both types of handlers are dynamically resolved by the container, and have their
 
 
 <a name="controllers"></a>
-### Controllers
+## Controllers
 
 Controllers are assigned to routes and are in charge of generating a response. Alternatively, instead of defining special controller classes, a simpler [closure-type route handlers](TODO) can be used.
 
-#### `BaseController`
+### `BaseController`
 All controller classes should extend the base `Duktig\Core\Controller\BaseController` in order to get access to the application context, including the properties:
 - `$request` - the PSR-7 request object
 - `$response` - - a "fresh" PSR-7 response object
@@ -181,7 +181,7 @@ All controller classes should extend the base `Duktig\Core\Controller\BaseContro
 
 `BaseController` also provides methods for quicker manipulation of the response object and its rendering.
 
-#### Route parameters
+### Route parameters
 
 Route parameters are passed to the controller as the action method's parameters. Ie. if a route uses one string parameter `$param`, and assigns it to the `exampleAction` method, the parameter will be available to the action method in this way:
 
@@ -189,11 +189,11 @@ Route parameters are passed to the controller as the action method's parameters.
 public function exampleAction(string $param) : ResponseInterface;
 ```
 
-#### Return type
+### Return type
 
 Every controller or route handler must return a PSR-7 response object. The `$response` property is available for use within controller that extend the main `BaseController` class, which is internally generated by a PSR-17 `$responseFactory` service.
 
-#### Dependency injection
+### Dependency injection
 
 Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entites, are by default not given the access to the container, as this is widely considered as the `service locator antipattern`. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
 
@@ -226,13 +226,13 @@ class IndexController extends BaseController
 }
 ``` 
 
-#### Lazy loading
+### Lazy loading
 
 The controller is resolved and instantiated only at the point when it is reached by the command chain. The special `ControllerResponder` middleware is used to resolve and execute the controller, and return its response to the application.
 
 
 <a name="middleware"></a>
-### Middleware
+## Middleware
 
 Duktig uses the "single-pass" HTTP middleware which corresponds to the [PSR-15](http://www.php-fig.org/psr/) specification. It implies the implementation of the `Psr\Http\ServerMiddleware\MiddlewareInterface` and the method with the following signature:
 
@@ -248,49 +248,49 @@ public function process(ServerRequestInterface $request);
 
 Duktig leaves out the implementation of the middleware dispatching system from its core functionality, and delegates it to an external package. The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) uses the `mindplay\middleman` middleware dispatcher, or rather its adapter [`iuravic/duktig-middleman-adapter`](https://github.com/iuravic/duktig-middleman-adapter) which wraps the Middleman's API slightly.
 
-#### Application and route middleware
+### Application and route middleware
 
 Two kinds of middlewares are used in Duktig:
 
 - application middleware - global for the whole application, it is run on each request,
 - route middleware - variable, can be assigned to a specific route.
 
-#### ControllerResponder
+### ControllerResponder
 
 The ControllerResponder is a special middleware which lies at the end of the middleware stack. It resolves the route handler, calls it, and returns its response back to the middleware stack. Since it is used as a "responder" from the route handler's perspective, hence its name.
 
-#### The middleware stack
+### The middleware stack
 
 The full middleware stack which the request traverses consists of:
 - application middleware
 - route middleware
 - the ControllerResponder middleware
 
-#### Dependency injection
+### Dependency injection
 
 All middlewares are instantiated by the container, therefore will have their constructor dependencies injected.
 
 
 <a name="templating"></a>
-### Templating
+## Templating
 
 The template rendering service is defined by the `Duktig\Core\View\RendererInterface`. It provides a simple API necessary to use the templating.
 
 
 <a name="events"></a>
-### Events
+## Events
 
-#### Event dispatcher
+### Event dispatcher
 
 The event dispatcher is defined by the `Duktig\Core\Event\Dispatcher\EventDispatcherInterface`. It implies that a container is provided to the dispatcher, which is then used to resolve the listeners. Therefore the event listeners will have their dependencies injected and be lazy-loaded when their events are dispatched.
 
-#### Event
+### Event
 
 Events in Duktig are simply value objects which contain the contextual information for the listeners to act upon. It is also correct to say that an event is just a value object with a unique name.
 
 Two different event types can be used in Duktig.
 
-##### Event as its separate class
+#### Event as its separate class
 
 An event can be created as its own class, which must extend the `Duktig\Core\Event\EventAbstract` class.
 
@@ -303,7 +303,7 @@ $event = new \DemoApp\Event\UserEvent($user);
 $eventDispatcher->dispatch($event);
 ```
 
-##### Simple event
+#### Simple event
 
 In the case of a simplest event which is represented only by its unique name, and does not need to hold any other information for the listener's handler to use, instead of writing a separate class for the event, the existing `Duktig\Core\Event\EventSimple` class can be used to instantiate an event on-the-fly.
 
@@ -315,7 +315,7 @@ The simple event can be dispatched by instantiating the `EventSimple` object on 
 $eventDispatcher->dispatch(new \Duktig\Core\Event\EventSimple('theEventName'));  
 ```
 
-#### Listeners
+### Listeners
 
 The event listener may either be provided as resolvable class/service name or as a simple closure.
 
@@ -327,13 +327,13 @@ In case the listener is given as a simple closure, it is not resolved by the con
 function($event) { /* ... */ }
 ```
 
-#### Core events
+### Core events
 
 The framework dispatches its core events throughout the points of interest in the application flow. The full list of Duktig's core events is found in the `duktig-core`'s [`events.php`](https://github.com/iuravic/duktig-core/blob/master/src/Config/events.php) file. Some core events are only defined by their unique names (ie. `'duktig.core.app.afterConfiguring'`), while others are created as separate classes.
 
 
 <a name="error-handling"></a>
-### Error handling
+## Error handling
 
 Duktig uses its own error and exception handler which implements the `Duktig\Core\Exception\Handler\HandlerInterface`. Its basic tasks are to register the error handling throughout the application, to convert a `\Throwable` into a response, and to report the occurence of such an error.
 
@@ -350,14 +350,14 @@ The renderer service is itself given the location of the templates, both for the
 
 
 <a name="configuration"></a>
-## Configuration
+# Configuration
 
 The configuration specifics are described within the [`duktig-skeleton-web-app` project](https://github.com/iuravic/duktig-skeleton-web-app) where it is seen in action. The skeleton application takes the `duktig-core` and provides it with all its dependencies, employing it into the full Duktig environment.
 
 
 
 <a name="testing"></a>
-## Testing
+# Testing
 
 The `duktig-core` and all the other packages implemented by the `duktig-skeleton-web-app` are fully tested using PHPUnit and Mockery.
 
