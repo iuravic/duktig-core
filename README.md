@@ -56,7 +56,6 @@ By learning from some of the most popular PHP web frameworks today ([Aura](http:
 <a name="features"></a>
 ## Features
 
-- PHP 7.1
 - MVC pattern
 - IoC and DI container
 - HTTP middleware
