@@ -299,9 +299,8 @@ In this case, its name can but does not have to be specifically provided (as the
 Here is a simple example of firing an event which is defined in its own separate class. Let us assume the `UserEvent` takes the parameter `$user` as the constructor parameter. Dispatching this event is as simple as:
 
 ```php
-<?php
-    $event = new \DemoApp\Event\UserEvent($user);
-    $eventDispatcher->dispatch($event);
+$event = new \DemoApp\Event\UserEvent($user);
+$eventDispatcher->dispatch($event);
 ```
 
 ##### Simple event
