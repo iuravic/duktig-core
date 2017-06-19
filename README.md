@@ -313,8 +313,7 @@ In this case, a unique event name must be given to the constructor. Since the `E
 The simple event can be dispatched by instantiating the `EventSimple` object on the fly, ie:
 
 ```php
-<?php
-    $eventDispatcher->dispatch(new \Duktig\Core\Event\EventSimple('theEventName'));  
+$eventDispatcher->dispatch(new \Duktig\Core\Event\EventSimple('theEventName'));  
 ```
 
 #### Listeners
