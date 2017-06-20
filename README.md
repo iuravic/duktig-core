@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/iuravic/duktig-core.svg?branch=master)](https://travis-ci.org/iuravic/duktig-core)
+
 # duktig-core
 
 This is the core package for the Duktig micro MVC web framework.
