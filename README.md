@@ -2,6 +2,8 @@
 
 This is the core package for the Duktig micro MVC web framework.
 
+A full skeleton web project using the Duktig framework is featured in the [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) package, which uses this core package and implements all its dependencies.
+
 # Table of contents
 - [About](#about)
     - [duktig-skeleton-web-app package](#duktig-skeleton-web-app-package)
@@ -33,7 +35,7 @@ Duktig is a light weight MVC micro web framework written for PHP 7.1. It was pri
 <a name="duktig-skeleton-web-app-package"></a>
 ## `duktig-skeleton-web-app` package
 
-The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) package is a full featured standalone project which is based on the `duktig-core` package. It can be used as a starting point for developing your own Duktig framework application since it readily implements all the necessary dependencies based on popular open-source projects and packages.
+The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) package is a full-featured project which is based on the `duktig-core` package. It can be used as a starting point for developing your own Duktig framework application since it readily implements all the necessary dependencies based on popular open-source projects and packages.
 
 <a name="purpose"></a>
 ## Purpose
@@ -56,7 +58,6 @@ By learning from some of the most popular PHP web frameworks today ([Aura](http:
 <a name="features"></a>
 ## Features
 
-- PHP 7.1
 - MVC pattern
 - IoC and DI container
 - HTTP middleware
@@ -169,7 +170,7 @@ Both types of handlers are dynamically resolved by the container, and have their
 <a name="controllers"></a>
 ## Controllers
 
-Controllers are assigned to routes and are in charge of generating a response. Alternatively, instead of defining special controller classes, a simpler [closure-type route handlers](TODO) can be used.
+Controllers are assigned to routes and are in charge of generating a response. Alternatively, instead of defining special controller classes, a simpler [closure-type route handlers](https://github.com/iuravic/duktig-skeleton-web-app/blob/master/README.md#routes-1) can be used.
 
 ### `BaseController`
 All controller classes should extend the base `Duktig\Core\Controller\BaseController` in order to get access to the application context, including the properties:
