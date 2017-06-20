@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/iuravic/duktig-core.svg?branch=master)](https://travis-ci.org/iuravic/duktig-core)
+[![Build Status](https://travis-ci.org/iuravic/duktig-core.svg?branch=master)](https://travis-ci.org/iuravic/duktig-core) [![Coverage Status](https://coveralls.io/repos/github/iuravic/duktig-core/badge.svg?branch=master)](https://coveralls.io/github/iuravic/duktig-core?branch=master)
 
 # duktig-core
 
