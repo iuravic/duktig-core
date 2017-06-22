@@ -51,7 +51,7 @@ By learning from some of the most popular PHP web frameworks today ([Aura](http:
 ## Standards
 
 - [PSR](http://www.php-fig.org) compliant
-  - PSR-1, PSR-2 coding, and PSR-4 autoloading standards
+  - PSR-2 coding, and PSR-4 autoloading standards
   - interfaces: PSR-3 logger, PSR-7 HTTP message, PSR-11 container, PSR-15 HTTP middlewares, PSR-17 HTTP factories
 - decoupled package design
 - powered by popular open source projects and libraries
