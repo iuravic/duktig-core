@@ -83,7 +83,8 @@ The [`duktig-core`](https://github.com/iuravic/duktig-core) implements several o
 
 These core services are registered in core's [`'Config/services.php'`](https://github.com/iuravic/duktig-core/blob/master/src/Config/services.php) file. If needed they can be overriden and replaced by your own configuration. This is acheived by using the `'skipCoreServices'` config parameter, in which case they must be specified by your own configuration.
 
-`duktig-core` uses the `Auryn DI container` out-of-the-box, which can also be modified by your application.
+`duktig-core` uses the [Auryn DI container](https://github.com/rdlowrey/auryn) out-of-the-box, or rather the adapter package [`duktig-auryn-adapter`](https://github.com/iuravic/duktig-auryn-adapter) which simply adapts its API to Duktig's [specification](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerInterface.php).
+The container can be changed to your own choice.
 
 
 <a name="requirements"></a>
@@ -200,7 +201,7 @@ Every controller or route handler must return a PSR-7 response object. The `$res
 
 Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entites, are by default not given the access to the container, as this is widely considered as the `service locator antipattern`. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
 
-It may also be needless to point out, but, naturally, when your controller defines it's own dependencies, it must also pay respect to its parent's dependencies as well, ie.:
+It may be quite needless to point this out specifically, but, naturally, when your controller defines it's own dependencies, it must also pay respect to its parent's dependencies as well, ie.:
 
 ```php
 <?php
@@ -267,7 +268,7 @@ The ControllerResponder is a special middleware which lies at the end of the mid
 The full middleware stack which the request traverses consists of:
 - application middleware
 - route middleware
-- the ControllerResponder middleware
+- the `ControllerResponder` middleware
 
 ### Dependency injection
 
@@ -355,7 +356,7 @@ The renderer service is itself given the location of the templates, both for the
 <a name="configuration"></a>
 # Configuration
 
-The configuration specifics are described within the [`duktig-skeleton-web-app` project](https://github.com/iuravic/duktig-skeleton-web-app) where it is seen in action. The skeleton application takes the `duktig-core` and provides it with all its dependencies, employing it into the full Duktig environment.
+The configuration specifics are described within the [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) project where it is seen in action. The skeleton application takes the `duktig-core` and provides it with all its dependencies, employing it into the full Duktig environment.
 
 
 
