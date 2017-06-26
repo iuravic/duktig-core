@@ -363,6 +363,6 @@ The configuration specifics are described within the [`duktig-skeleton-web-app`]
 <a name="testing"></a>
 # Testing
 
-The `duktig-core` and all the other packages implemented by the `duktig-skeleton-web-app` are fully tested using PHPUnit and Mockery.
+The `duktig-core` and all the the other [packages](https://github.com/iuravic/duktig-skeleton-web-app/blob/master/README.md#dependencies) implemented by the `duktig-skeleton-web-app` are fully tested using PHPUnit and Mockery.
 
 A special [`Duktig\Test\AppTesting`](https://github.com/iuravic/duktig-core/blob/master/tests/AppTesting.php) class is available for the testing environment. It extends access to the container and to the response object. It can be used to easily mock services, and to gain direct access to the response.
