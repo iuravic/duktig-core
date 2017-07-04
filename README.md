@@ -108,9 +108,9 @@ Once implemented, the application has access to the implementations of the follo
 <a name="container"></a>
 ## Container
 
-The DI container must implement the [`Duktig\Core\DI\ContainerInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerInterface.php). This interface is an extension of the `Psr\Container\ContainerInterface` with a several methods of its own.
+The DI container must implement the [`Duktig\Core\DI\ContainerInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerInterface.php). This interface is an extension of the `Psr\Container\ContainerInterface` with a several methods of its own. The dependency resolution in Duktig is based on constructor arguments injection which is the central feature the container must implement.
 
-By default, Duktig out-of-the-box uses the [Auryn container](https://github.com/rdlowrey/auryn), or rather the [`duktig-auryn-adapter`](https://github.com/iuravic/duktig-auryn-adapter) package which adapts to the defined interface. This is defined in the `dutig-core` [configuration](https://github.com/iuravic/duktig-core/tree/master/src/Config). The container can however be changed to any PSR-11 container which additionally implements the `Duktig\Core\DI\ContainerInterface`.
+By default, Duktig uses the [Auryn container](https://github.com/rdlowrey/auryn) out-of-the-box, or rather the [`duktig-auryn-adapter`](https://github.com/iuravic/duktig-auryn-adapter) package which adapts to the defined interface. This is defined in the `dutig-core` [configuration](https://github.com/iuravic/duktig-core/tree/master/src/Config). The container can however be changed to any PSR-11 container which additionally implements the `Duktig\Core\DI\ContainerInterface`.
 
 <a name=""></a>
 ### ContainerFactory
@@ -122,7 +122,7 @@ The `ContainerFactory` then configures the container, by running it through the 
 <a name="dependency-resolution"></a>
 ## Dependency resolution
 
-As with any standard PHP DI container, the constructor parameter type hinting is used to provide dependency injection. The following entites in the framework are resolved by the container:
+As with other standard PHP DI containers, the constructor parameter type hinting is used to provide dependency injection. The following entites in the framework are resolved by the container:
 
 - services
 - controllers
@@ -167,7 +167,7 @@ A route can have two different kinds of resolvers:
 
 Both types of route handlers must return a `ResponseInterface` type object. For a closure type handler, it is recommended to use the `Interop\Http\Factory\ResponseFactoryInterface` to create a response instance, while a controller will allready have the response prepared for use via the `BaseController` parent class.
 
-Both types of handlers are dynamically resolved by the container, and have their dependencies injected upon creation.
+Both types of handlers are dynamically resolved by the container, and have their constructor arguments dependencies injected upon creation.
 
 
 <a name="controllers"></a>
