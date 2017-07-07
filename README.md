@@ -95,9 +95,9 @@ The `duktig-core` package defines and uses a number of interfaces which need to 
 Once implemented, the application has access to the implementations of the following interfaces:
 - `Interop\Http\Factory\ServerRequestFactoryInterface` and `Interop\Http\Factory\ResponseFactoryInterface` - HTTP message factories
 - `Interop\Http\ServerMiddleware\DelegateInterface` - HTTP middleware dispatcher service
-- `Duktig\Core\Event\Dispatcher\EventDispatcherInterface` - event dispatcher    
-- `Duktig\Core\View\RendererInterface` - template renderer
-- `Duktig\Core\Route\Router\RouterInterface` - router service
+- [`Duktig\Core\Event\Dispatcher\EventDispatcherInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Event/Dispatcher/EventDispatcherInterface.php) - event dispatcher    
+- [`Duktig\Core\View\RendererInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/View/RendererInterface.php) - template renderer
+- [`Duktig\Core\Route\Router\RouterInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Route/Router/RouterInterface.php) - router service
 - `Psr\Log\LoggerInterface` - logger service    
 
 
@@ -148,7 +148,7 @@ The framework itself takes advantage of the lazy-loading optimization and delays
 
 ### Router
 
-Duktig's router is featured as a standalone service. The router must implement the [`Duktig\Core\Route\Router\RouterInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Route/Router/RouterInterface.php). This interface defines only one mandatory method `match` which matches the `Psr\Http\Message\ServerRequestInterface` object to a `Duktig\Core\Route\Router\RouterMatch` object. The `RouterMatch` is nothing more than a value object which represents the matched route; it holds the route which was matched and its parameters.
+Duktig's router is featured as a standalone service. The router must implement the [`Duktig\Core\Route\Router\RouterInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Route/Router/RouterInterface.php). This interface defines only one mandatory method `match` which matches the `Psr\Http\Message\ServerRequestInterface` object to a [`Duktig\Core\Route\Router\RouterMatch`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Route/Router/RouterMatch.php) object. The `RouterMatch` is nothing more than a value object which represents the matched route; it holds the route which was matched and its parameters.
 
 ### Route
 
@@ -199,7 +199,7 @@ Every controller or route handler must return a PSR-7 response object. The `$res
 
 ### Dependency injection
 
-Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entites, are by default not given the access to the container, as this is widely considered as the `service locator antipattern`. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
+Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entites, are by default not given the access to the container, as this is widely considered as the service locator antipattern. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
 
 It may be quite needless to point this out specifically, but, naturally, when your controller defines it's own dependencies, it must also pay respect to its parent's dependencies as well, ie.:
 
@@ -250,7 +250,7 @@ Likewise the middleware dispatching system must implement the `Psr\Http\ServerMi
 public function process(ServerRequestInterface $request);
 ```
 
-Duktig leaves out the implementation of the middleware dispatching system from its core functionality, and delegates it to an external package. The [`duktig-skeleton-web-app`](https://github.com/iuravic/duktig-skeleton-web-app) uses the `mindplay\middleman` middleware dispatcher, or rather its adapter [`iuravic/duktig-middleman-adapter`](https://github.com/iuravic/duktig-middleman-adapter) which wraps the Middleman's API slightly.
+Duktig leaves out the implementation of the middleware dispatching system from its core functionality, and delegates it to an external package.
 
 ### Application and route middleware
 
@@ -278,7 +278,7 @@ All middlewares are instantiated by the container, therefore will have their con
 <a name="templating"></a>
 ## Templating
 
-The template rendering service is defined by the `Duktig\Core\View\RendererInterface`. It provides a simple API necessary to use the templating.
+The template rendering service is defined by the [`Duktig\Core\View\RendererInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/View/RendererInterface.php). It provides a simple API necessary to use the templating.
 
 
 <a name="events"></a>
@@ -286,7 +286,7 @@ The template rendering service is defined by the `Duktig\Core\View\RendererInter
 
 ### Event dispatcher
 
-The event dispatcher is defined by the `Duktig\Core\Event\Dispatcher\EventDispatcherInterface`. It implies that a container is provided to the dispatcher, which is then used to resolve the listeners. Therefore the event listeners will have their dependencies injected and be lazy-loaded when their events are dispatched.
+The event dispatcher is defined by the [`Duktig\Core\Event\Dispatcher\EventDispatcherInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Event/Dispatcher/EventDispatcherInterface.php). It implies that a container is provided to the dispatcher, which is then used to resolve the listeners. Therefore the event listeners will have their dependencies injected and be lazy-loaded when their events are dispatched.
 
 ### Event
 
@@ -323,7 +323,7 @@ $eventDispatcher->dispatch(new \Duktig\Core\Event\EventSimple('theEventName'));
 
 The event listener may either be provided as resolvable class/service name or as a simple closure.
 
-In the first case, in which the listener is a separate class, it must implement the `Duktig\Core\Event\ListenerInterface`. When the event is dispatched, the listener is be resolved by the container and have all its constructor dependencies injected.
+In the first case, in which the listener is a separate class, it must implement the [`Duktig\Core\Event\ListenerInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Event/ListenerInterface.php). When the event is dispatched, the listener is be resolved by the container and have all its constructor dependencies injected.
 
 In case the listener is given as a simple closure, it is not resolved by the container, so no dependencies will be injected. The closure-type listener expect only one optional argument, the event:
 
@@ -339,7 +339,7 @@ The framework dispatches its core events throughout the points of interest in th
 <a name="error-handling"></a>
 ## Error handling
 
-Duktig uses its own error and exception handler which implements the `Duktig\Core\Exception\Handler\HandlerInterface`. Its basic tasks are to register the error handling throughout the application, to convert a `\Throwable` into a response, and to report the occurence of such an error.
+Duktig uses its own error and exception handler which implements the [`Duktig\Core\Exception\Handler\HandlerInterface`](https://github.com/iuravic/duktig-core/blob/master/src/Core/Exception/Handler/HandlerInterface.php). Its basic tasks are to register the error handling throughout the application, to convert a `\Throwable` into a response, and to report the occurence of such an error.
 
 It takes in cosideration the PHP 7 error and exception handling mechanisms. From the PHP 7 version, both the `\Error` and the `\Exception` classes implement the `\Throwable` interface. Instead of halting script execution, some fatal errors and recoverable errors now throw exceptions. Also, an uncaught exception will continue to produce a fatal error, and in this same way an `\Error` exception thrown from an uncaught fatal error still produces a fatal error.
 
