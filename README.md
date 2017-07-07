@@ -81,7 +81,7 @@ The [`duktig-core`](https://github.com/iuravic/duktig-core) implements several o
 - [exception handler](https://github.com/iuravic/duktig-core/blob/master/src/Core/Exception/Handler/Handler.php),
 - [response sender](https://github.com/iuravic/duktig-core/blob/master/src/Core/Http/ResponseSender.php),
 
-These core services are registered in core's [`'Config/services.php'`](https://github.com/iuravic/duktig-core/blob/master/src/Config/services.php) file. If needed they can be overriden and replaced by your own configuration. This is acheived by using the `'skipCoreServices'` config parameter, in which case they must be specified by your own configuration.
+These core services are registered in core's [`'Config/services.php'`](https://github.com/iuravic/duktig-core/blob/master/src/Config/services.php) file. If needed they can be overridden and replaced by your own configuration. This is achieved by using the `'skipCoreServices'` config parameter, in which case they must be specified by your own configuration.
 
 `duktig-core` uses the [Auryn DI container](https://github.com/rdlowrey/auryn) out-of-the-box, or rather the adapter package [`duktig-auryn-adapter`](https://github.com/iuravic/duktig-auryn-adapter) which simply adapts its API to Duktig's [specification](https://github.com/iuravic/duktig-core/blob/master/src/Core/DI/ContainerInterface.php).
 The container can be changed to your own choice.
@@ -122,7 +122,7 @@ The `ContainerFactory` then configures the container, by running it through the 
 <a name="dependency-resolution"></a>
 ## Dependency resolution
 
-As with other standard PHP DI containers, the constructor parameter type hinting is used to provide dependency injection. The following entites in the framework are resolved by the container:
+As with other standard PHP DI containers, the constructor parameter type hinting is used to provide dependency injection. The following entities in the framework are resolved by the container:
 
 - services
 - controllers
@@ -135,7 +135,7 @@ These entities will have their constructor parameters resolved and injected at r
 <a name="lazy-loading"></a>
 ## Lazy-loading
 
-The framework itself takes advantage of the lazy-loading optimization and delays the object creation in several cases, therefore improving performance. Ie. the controller resolution happens only when the end of the middleware stack is reached, and not sooner. Lazy-loading is naturally related to the container's `make()` method implementation. Therefore, if the container of your choice uses lazy-loading (which the Auryn DI container does), it will also be applied throughout the framework workflow.
+The framework itself takes advantage of the lazy-loading optimization and delays the object creation in several cases, therefore improving performance. Ie. the controller resolution happens only when the end of the middleware stack is reached, and not sooner. Lazy-loading is naturally related to the container's `make()` method implementation. Therefore, if the container of your choice uses lazy-loading (which the Auryn DI container does), it will also be applied throughout the framework work flow.
 
 
 <a name="framework-components"></a>
@@ -152,7 +152,7 @@ Duktig's router is featured as a standalone service. The router must implement t
 
 ### Route
 
-`Duktig\Core\Route\Route` is the Duktig's route model. Its form was heaviliy influenced by the [Symfony Route's](https://github.com/symfony/routing) route model, as it is one of the most feature-rich and popular route representations in the open-source community.
+`Duktig\Core\Route\Route` is the Duktig's route model. Its form was heavily influenced by the [Symfony Route's](https://github.com/symfony/routing) route model, as it is one of the most feature-rich and popular route representations in the open-source community.
 
 ### RouteProvider
 
@@ -165,7 +165,7 @@ A route can have two different kinds of resolvers:
 - the first is a classical controller with an action method, where the controller extends the `BaseController` class exposing access to the request and some essential components,
 - the second is a closure type handler, which is given directly in route configuration.
 
-Both types of route handlers must return a `ResponseInterface` type object. For a closure type handler, it is recommended to use the `Interop\Http\Factory\ResponseFactoryInterface` to create a response instance, while a controller will allready have the response prepared for use via the `BaseController` parent class.
+Both types of route handlers must return a `ResponseInterface` type object. For a closure type handler, it is recommended to use the `Interop\Http\Factory\ResponseFactoryInterface` to create a response instance, while a controller will already have the response prepared for use via the `BaseController` parent class.
 
 Both types of handlers are dynamically resolved by the container, and have their constructor arguments dependencies injected upon creation.
 
@@ -199,7 +199,7 @@ Every controller or route handler must return a PSR-7 response object. The `$res
 
 ### Dependency injection
 
-Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entites, are by default not given the access to the container, as this is widely considered as the service locator antipattern. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
+Controllers will have their constructor parameters resolved and injected at runtime. Controllers, among other entities, are by default not given the access to the container, as this is widely considered as the service locator anti-pattern. However, no special restriction is imposed on this approach neither, and could easily be implemented. This practice is, however, strongly discouraged.
 
 It may be quite needless to point this out specifically, but, naturally, when your controller defines it's own dependencies, it must also pay respect to its parent's dependencies as well, ie.:
 
